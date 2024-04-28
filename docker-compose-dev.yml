@@ -74,9 +74,9 @@ services:
       - ./docker/pgdb:/var/lib/postgresql/data
       - ./db_init:/docker-entrypoint-initdb.d
 
-  hesta-pgadmin:
+  hestia-pgadmin:
     image: dpage/pgadmin4
-    container_name: hesta-pgadmin
+    container_name: hestia-pgadmin
     environment:
       - PGADMIN_DEFAULT_EMAIL=a@a.com
       - PGADMIN_DEFAULT_PASSWORD=verysecret
