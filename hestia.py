@@ -8,6 +8,7 @@ from psycopg2.extras import RealDictCursor
 from bs4 import BeautifulSoup
 from secrets import TOKEN, DB_DB, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT
 from datetime import datetime, timedelta
+from math import isnan
 
 import re
 import hestia
@@ -40,7 +41,7 @@ class Home:
         assert len(self.city) > 2
         
         assert type(self.price) is float
-        assert self.price > 1
+        assert isnan(self.price) or self.price > 1
 
         assert "https://" in self.url
 

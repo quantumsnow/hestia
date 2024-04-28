@@ -210,7 +210,7 @@ class Funda(Target):
           {
             "id": "offering_type",
             "type": "term",
-            "value": "rent",
+            "value": "",
             "execute": false,
             "dataField": [
               "offering_type"
@@ -1464,19 +1464,14 @@ class Funda(Target):
     homes: list[Home] = []
 
     for res in results:
-      try:
-        # Some listings don't have house numbers, so skip
-        if "house_number" not in res["_source"]["address"].keys():
-            logging.warning("Skipping a house without house number")
-            continue
-        # Some listings don't have a rent_price, skip as well
-        if "rent_price" not in res["_source"]["price"].keys():
-            logging.warning("Skipping a house without price")
-            continue
-    
+      try:    
         home = Home(agency=self.agency)
         
-        home.address = f"{res['_source']['address']['street_name']} {res['_source']['address']['house_number']}"
+        if "house_number" in res["_source"]["address"].keys():
+          home.address = f"{res['_source']['address']['street_name']} {res['_source']['address']['house_number']}"
+        else:
+          home.address = f"{res['_source']['address']['street_name']}"
+          
         if "house_number_suffix" in res["_source"]["address"].keys():
             suffix = res["_source"]["address"]["house_number_suffix"]
             if '-' not in suffix and '+' not in suffix:
@@ -1485,7 +1480,13 @@ class Funda(Target):
         
         home.city = res["_source"]["address"]["city"]
         home.url = "https://funda.nl" + res["_source"]["object_detail_page_relative_url"]
-        home.price = float(res["_source"]["price"]["rent_price"][0])
+
+        if "rent_price" in res["_source"]["price"].keys():
+          home.price = float(res["_source"]["price"]["rent_price"][0])
+        elif "selling_price" in res["_source"]["price"].keys():
+          home.price = float(res["_source"]["price"]["selling_price"][0])
+        else:
+          home.price = float('nan')
         
         homes.append(home)
       except:
