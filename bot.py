@@ -70,7 +70,7 @@ async def new_sub(update, context, reenable=False):
         
     message ="""Hi there!
 
-I scrape real estate websites for new rental homes in The Netherlands. For more info on which websites I scrape, say /websites. To see and modify your personal filters, say /filter.
+I scrape real estate websites for homes for rent (or sale for some websites) in The Netherlands. For more info on which websites I scrape, say /websites. To see and modify your personal filters, say /filter.
 
 You will receive a message when I find a new home that matches your filters! If you want me to stop, just say /stop."""
     await context.bot.send_message(update.effective_chat.id, message)
@@ -173,7 +173,7 @@ async def websites(update, context):
     sleep(1)
 
 async def info(update, context):
-    message = "This tool is open source, its source code can be found at https://github.com/philipgroet/hestia. This tool is a fork of the bot made by wkfloris: https://github.com/wtfloris/hestia."
+    message = "This tool is open source, its source code can be found at https://github.com/quantumsnow/hestia. This tool is a fork of the bot made by wkfloris: https://github.com/philipgroet/hestia."
     await context.bot.send_message(update.effective_chat.id, message)
     
 async def get_sub_info(update, context):
